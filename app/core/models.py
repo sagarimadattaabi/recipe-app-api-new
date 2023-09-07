@@ -9,6 +9,7 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 
+
 class UserManager(BaseUserManager):
     """Manager for Users."""
 
@@ -17,7 +18,7 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError('User must have an email address.')
         user = self.model(email=self.normalize_email(email), **extra_fields)
-        user.set_password(password) #encrypted through hashing mechanism
+        user.set_password(password)  # encrypted through hashing mechanism
         user.save(using=self._db)
 
         return user
@@ -32,14 +33,12 @@ class UserManager(BaseUserManager):
         return user
 
 
-
-
 class User(AbstractBaseUser, PermissionsMixin):
     """User in the system."""
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False) #can login to admin
+    is_staff = models.BooleanField(default=False)  # can login to admin
 
     objects = UserManager()
 
